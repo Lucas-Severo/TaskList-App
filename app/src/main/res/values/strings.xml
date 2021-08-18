@@ -7,4 +7,7 @@
     <string name="label_cancel">Cancelar</string>
     <string name="label_tasks">Tarefas</string>
     <string name="label_description_new_task">Nova Tarefa</string>
+    <string name="label_edit">Editar</string>
+    <string name="label_delete">Deletar</string>
+    <string name="label_you_dont_have_tasks">Ops! Você não possui\n nenhuma tarefa</string>
 </resources>

@@ -2,13 +2,18 @@ package com.digital.todolist.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.digital.todolist.R
 import com.digital.todolist.databinding.ItemTaskBinding
 import com.digital.todolist.model.Task
 
 class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(DiffCallBack()) {
+
+    var listenerEdit : (Task) -> Unit = {}
+    var listenerDelete : (Task) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -27,6 +32,23 @@ class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(DiffCa
         fun bind(item: Task) {
             binding.tvTitle.text = item.title
             binding.tvDate.text = "${item.date} ${item.hour}"
+            binding.ivMore.setOnClickListener {
+                showPopup(item)
+            }
+        }
+
+        private fun showPopup(item: Task) {
+            val ivMore = binding.ivMore
+            val popupMenu = PopupMenu(ivMore.context, ivMore)
+            popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_edit -> listenerEdit(item)
+                    R.id.action_delete -> listenerDelete(item)
+                }
+                return@setOnMenuItemClickListener true
+            }
+            popupMenu.show()
         }
 
     }
